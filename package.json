@@ -1,0 +1,17 @@
+{
+  "name": "livewire-robokiller",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@signalwire/node": "^2.4.0",
+    "dotenv": "^10.0.0",
+    "node-persist": "^3.1.0"
+  }
+}
