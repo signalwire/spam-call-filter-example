@@ -1,13 +1,19 @@
 import storage from 'node-persist'
 
 /**
- * 
+ * Given a call object, connects the caller to the specified destination number.
+ * During the call, listens for DTMF '**' and, if one is provided by the callee,
+ * marks the caller as a scammer and hangs up the destination number. The
+ * original call remains active.
+ *
  * @param {*} call 
  * @param {*} destinationNumber 
- * @returns false if the number is marked as scammer, true otherwise.
+ * @returns false if the number gets marked as scammer, true if the call ends
+ * without getting marked as scammer.
  */
 export async function transfer(call, destinationNumber) {
-  var dial = await call.connect({
+  // Connect the call to our real phone number
+  const dial = await call.connect({
     type: 'phone',
     to: destinationNumber,
     from: call.from,
@@ -20,25 +26,29 @@ export async function transfer(call, destinationNumber) {
     return
   }
 
-  const dialed = []
+  // Detect if the user presses '**'. If so, mark caller as spammer.
+  let dialed = ''
   dial.call.on('detect.update', async (call, params) => {
     if (params.detect.type === "digit") {
       const digit = params.detect.params.event
-      dialed.push(digit)
-      console.log("Dialed", dialed)
-      if (dialed.join('').endsWith('**')) {
+      console.log('Dialed', digit)
+      dialed += digit
+
+      if (dialed.endsWith('**')) {
         console.log("Marking as scammer")
         await storage.set(call.from, { isHuman: true, isScammer: true })
-        dial.call.hangup()
+        dial.call.hangup()  // Hangup the nested call
       }
     }
   });
 
+  // Start the asynchronous detection
   dial.call.detectAsync({
     type: "digit",
     timeout: 0
   });
 
+  // Wait until the nested call ends
   await dial.call.waitForEnded();
 
   const { isScammer } = await storage.get(call.from)

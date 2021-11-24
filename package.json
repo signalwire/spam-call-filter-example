@@ -1,17 +1,19 @@
 {
-  "name": "livewire-robokiller",
+  "name": "livewire-audio-captcha",
   "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@signalwire/node": "^2.4.0",
     "dotenv": "^10.0.0",
-    "node-persist": "^3.1.0"
+    "node-persist": "^3.1.0",
+    "nodemon": "^2.0.15"
   }
 }

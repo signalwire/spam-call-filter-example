@@ -1,5 +1,13 @@
 import storage from 'node-persist'
 
+/**
+ * Given a call object, this function asks the caller to solve a captcha. Then,
+ * it returns `true` if the caller solve the captcha (i.e., it is a human),
+ * `false` otherwise.
+ *
+ * @param {*} call 
+ * @returns true if human, false otherwise
+ */
 export async function captcha(call) {
   const MAX_TRIES = 3
 
@@ -11,13 +19,13 @@ export async function captcha(call) {
     const expectedAnswer = digit1 + digit2
 
     const result = await call.promptTTS({
-      type: 'both',
-      digits_max: 2,
-      digit_timeout: 1.0,
-      digits_terminators: '#',
-      end_silence_timeout: 1.0,
-      speech_hints: [...Array(19).keys()],
-      text: "What is " + digit1 + " plus " + digit2 + '?'
+      type: 'both',  // Collect both digits and speech
+      digits_max: 2,  // Max digits to collect
+      digit_timeout: 1.0,  // Timeout in seconds between each digit
+      digits_terminators: '#',  // DTMF digit that will end the recording
+      end_silence_timeout: 1.0,  // How much silence to wait for end of speech. 
+      speech_hints: ['denoise=true', ...Array(19).keys()],  // Array of expected phrases to detect.
+      text: "What is " + digit1 + " plus " + digit2 + '?'  // Our TTS prompt
     })
 
     if (result && result.successful) {

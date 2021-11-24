@@ -21,11 +21,31 @@ const lennyConfig = {
   ]
 }
 
+/**
+ * Given a call object, connect the caller to Lenny and his ducks.
+ * 
+ * @param {*} call 
+ * @returns asynchronously returns `void` when the call ends.
+ */
+export async function lenny(call) {
+  let i = 0
+
+  while (call.active) {
+    await promptLenny(call, i)
+    i += 1
+
+    if (i >= lennyConfig.responses.length) {
+      i = 4
+    }
+  }
+}
+
 async function promptLenny(call, responseId) {
   console.log("Prompting with: ", lennyConfig.responses[responseId]);
 
   await call.playAudio({
-    url: lennyConfig.soundBase + '/' + lennyConfig.responses[responseId]
+    url: lennyConfig.soundBase + '/' + lennyConfig.responses[responseId],
+    volume: +20
   });
 
   return await call.prompt({
@@ -36,24 +56,4 @@ async function promptLenny(call, responseId) {
       url: lennyConfig.soundBase + '/' + lennyConfig.background
     }]
   });
-}
-
-export async function lenny(call) {
-  let i;
-
-  for (i = 0; i < lennyConfig.responses.length; i++) {
-    if (!call.active)
-      return
-
-    await promptLenny(call, i)
-  }
-
-  while (call.active) {
-    const new_i = Math.floor(Math.random() * lennyConfig.responses.length)
-    if (i === new_i)
-      continue
-
-    i = new_i
-    await promptLenny(call, i)
-  }
 }
