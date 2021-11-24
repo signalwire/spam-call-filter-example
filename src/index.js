@@ -42,22 +42,18 @@ const MY_NUMBER = process.env.MY_NUMBER
  */
 async function onIncomingCallHandler(call) {
   console.log('Inbound call', call.id, call.from, call.to);
-  const answerResult = await call.answer();
+
+  /* TODO: Answer the call */
+  const answerResult = null
 
   if (!answerResult.successful) {
     console.error('Error during call answer')
     return;
   }
 
-  const recordAction = await call.recordAsync({
-    direction: "both",
-    initial_timeout: 10,
-    end_silence_timeout: 0,
-    stereo: true
-  })
-  console.log("Recording the call to " + recordAction.url);
+  /* TODO: Start recording */
 
-  await call.playSilence(1);
+  /* TODO: Play some silence */
 
   let state = 'START'
 

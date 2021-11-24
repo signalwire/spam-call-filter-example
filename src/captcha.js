@@ -11,22 +11,20 @@ import storage from 'node-persist'
 export async function captcha(call) {
   const MAX_TRIES = 3
 
-  await call.playTTS({ text: 'Hello! To complete your call, Please verify you are a human, by dialing or speaking the answer to this simple question.' })
+  /*
+    TODO: Play a message such as:  
+
+        Hello! To complete your call, Please verify you are a human, by dialing
+        or speaking the answer to this simple question.
+  */
 
   for (let i = MAX_TRIES - 1; i >= 0; i--) {
     const digit1 = Math.floor(Math.random() * 10)
     const digit2 = Math.floor(Math.random() * 10)
     const expectedAnswer = digit1 + digit2
 
-    const result = await call.promptTTS({
-      type: 'both',  // Collect both digits and speech
-      digits_max: 2,  // Max digits to collect
-      digit_timeout: 1.0,  // Timeout in seconds between each digit
-      digits_terminators: '#',  // DTMF digit that will end the recording
-      end_silence_timeout: 1.0,  // How much silence to wait for end of speech. 
-      speech_hints: ['denoise=true', ...Array(19).keys()],  // Array of expected phrases to detect.
-      text: "What is " + digit1 + " plus " + digit2 + '?'  // Our TTS prompt
-    })
+    /* TODO: Prompt for captcha solution using TTS */
+    const result = null
 
     if (result && result.successful) {
       console.log(`Answered ${result.result}`)

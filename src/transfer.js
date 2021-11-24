@@ -12,13 +12,17 @@ import storage from 'node-persist'
  * without getting marked as scammer.
  */
 export async function transfer(call, destinationNumber) {
+  /* TODO: */
   // Connect the call to our real phone number
+  const dial = null
+  /*
   const dial = await call.connect({
     type: 'phone',
     to: destinationNumber,
     from: call.from,
     timeout: 30
   });
+  */
 
   if (!dial.successful) {
     await call.playTTS({ text: "Sorry, there was an error completing your call, Goodbye!" })
