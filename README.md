@@ -54,6 +54,8 @@ Give a call to the phone number you set up above and prepare for a simple math q
 
 ## Documentation and useful links
 
+[Building this application, step-by-step](https://developer.signalwire.com/apis/docs/stop-robocalls-with-signalwires-communication-api-and-nodejs)
+
 [Relay Documentation](https://docs.signalwire.com/topics/relay/#relay-documentation)
 
 [Relay Docker Images](https://github.com/signalwire/signalwire-relay-docker)
