@@ -46,11 +46,7 @@ export async function transfer(call, destinationNumber) {
     }
   });
 
-  // Start the asynchronous detection
-  dial.call.detectAsync({
-    type: "digit",
-    timeout: 0
-  });
+  /* TODO: Start the asynchronous detection */
 
   // Wait until the nested call ends
   await dial.call.waitForEnded();
