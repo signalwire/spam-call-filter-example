@@ -48,6 +48,9 @@ You can also run the application via Docker, by first building the image with `d
 
 If you prefer, you can just run `sh run_docker.sh` in your shell and the container will be built and started for you.
 
+Note that Relay runs in its own process, not within an HTTP server. Thus, it requires **no open ports**: just an outbound connection to the SignalWire servers. This allows a Consumer to be very efficient, with a small footprint. See [Deploying Relay](https://github.com/signalwire/signalwire-guides/blob/master/intros/getting_started_relay.md#deploying-relay).
+
+
 ## Testing it
 
 Give a call to the phone number you set up above and prepare for a simple math quiz... unless you are a robot!
